@@ -1,51 +1,77 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
 /*
-  判断(i,j)这个位置作为起点，像四个方向是不是有可以走的路。step代表下一步，visited用来标记当前走过的位置
+  判断(i,j)这个位置是否满足条件，如果满足，看四个方向是不是有可以走的路。step当前走到了第几步
  */
-bool canForward(char** board, int boardRowSize, int boardColSize, char* word, int i, int j, int step, bool** visited) {
-    if (step == strlen(word)+1) {
-        return false;
-    }
-    int next_i = i;
-    int next_j = j;
-    for (int istep = -1; istep <= 1; istep +=2) {
-        for (int jstep = -1; jstep <= 1; jstep +=2) {
-            next_i = i + istep;
-            next_j = j + istep;
-            if (next_i >= 0 && next_i < boardRowSize &&
-                next_j >= 0 && next_j < boardColSize) {
-                if (visited[next_i][next_j] == false && board[next_i][next_j] == word[step]) {
-                    visited[next_i][next_j] = true;
-                    if (canForward(board, boardRowSize, boardColSize, word, next_i, next_j, step+1, visited)) {
-                        return true;
-                    }
-                    visited[next_i][next_j] = false;
-                }
-            }
+bool canForward(char** board, int boardRowSize, int boardColSize, char* word, int i, int j, int step) {
+    if (board[i][j] == word[step]) {
+        char c = board[i][j];
+        board[i][j] = '#';
+        if (step == strlen(word) - 1) {
+            return true;
         }
+    
+        if ( (i-1) >= 0 && canForward(board, boardRowSize, boardColSize, word, i-1, j, step+1) ||
+            (i+1) < boardRowSize && canForward(board, boardRowSize, boardColSize, word, i+1, j, step+1) ||
+            (j-1) >= 0 && canForward(board, boardRowSize, boardColSize, word, i, j-1, step+1) ||
+            (j+1) < boardColSize && canForward(board, boardRowSize, boardColSize, word, i, j+1, step+1)) {
+            board[i][j] = c;                                
+            return true;
+        }            
+        board[i][j] = c;
     }
+    return false;
 }
 bool exist(char** board, int boardRowSize, int boardColSize, char* word) {
     int len = strlen(word);
     if ( len == 0) {
         return true;
     }
-    bool visited[boardRowSize][boardColSize];
-    for (int i = 0; i < boardRowSize; i++) {
-        for (int j = 0; j < boardRowSize; j++) {        
-            visited[i][j] = false;
-        }
+    if (boardRowSize * boardColSize < len) {
+        return false;
     }
     int step = 0;
     for (int i = 0; i < boardRowSize; i++) {
         for (int j = 0; j < boardColSize; j++) {
             if (board[i][j] == word[step]) {
-                visited[i][j] = true;
-                if (canForward(board, boardRowSize, boardColSize, word, i, j, step+1, visited)) {
+                if (canForward(board, boardRowSize, boardColSize, word, i, j, step)) {
                     return true;
                 }
-                visited[i][j] = false;
             }
         }
     }
     return false;
+}
+int main() {
+    char** board = (char**)malloc(sizeof(char*) * 3);
+    for (int i = 0; i < 3; i++) {
+        board[i] = (char*)malloc(sizeof(char) * 4);
+    }
+
+    board[0][0] = 'A';
+    board[0][1] = 'B';
+    board[0][2] = 'C';
+    board[0][3] = 'E';
+    
+    board[1][0] = 'S';
+    board[1][1] = 'F';
+    board[1][2] = 'C';
+    board[1][3] = 'S';
+    
+    board[2][0] = 'A';
+    board[2][1] = 'D';
+    board[2][2] = 'E';
+    board[2][3] = 'E';    
+    
+    bool ret = exist(board, 3, 4, "ABCCED");
+    printf("%s\n" , ret == true ? "true" : "false");
+
+    ret = exist(board, 3, 4, "SEE");
+    printf("%s\n" , ret == true ? "true" : "false");
+    
+    ret = exist(board, 3, 4, "ABCB");
+    printf("%s\n" , ret == true ? "true" : "false");
+    
+    return 0;
 }
