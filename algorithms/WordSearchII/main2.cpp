@@ -3,7 +3,8 @@
 #include<string.h>
 #include<string>
 #include<vector>
-
+/* 看陈耗的代码，我的这个代码还有优化的空间。不用每个节点上，做一次从头到尾的字符串前缀匹配的判断，整个深度优先的回溯，其实都是依靠前缀数来进行的，所以只需要判断当前节点是否在前缀数里，之前的节点肯定就都在前缀树里了
+ */
 using namespace std;
 class TrieNode {
 public:
