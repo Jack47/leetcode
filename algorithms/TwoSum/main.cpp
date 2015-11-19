@@ -3,8 +3,8 @@ https://leetcode.com/problems/two-sum/
 Given an array of integers, find two numbers such that they add up to a specific target numbers
 The function twoSum should return indices of the two numbers such that they add up to the target, where index1 must be less than index2 and they are not zero-based.
  */
+#include <assert.h>
 #include <stdlib.h>
-
 
 #include <algorithm>
 #include <vector>
@@ -25,31 +25,31 @@ class Solution {
 public:
     vector<int> twoSum(const vector<int>& nums, int target) {
         int numsSize = static_cast<int>(nums.size());
-        vector<int> nums_index(0, numsSize-1);
-        
+        vector<int> nums_index;
+        nums_index.reserve(numsSize);
+        for (int i = 0; i < numsSize; i++) {
+            nums_index[i] = i;
+        }
         IntArrayCompare compare(nums);
         std::sort(nums_index.begin(), nums_index.end(), compare);
         int right = numsSize-1;
         int left = 0;
-        while (nums[nums_index[right]] > target) {
+
+        while (left < right && nums[nums_index[right]] + nums[nums_index[left]] > target) {
             --right;
         }
-        while(left < right && nums[nums_index[right]] + nums[nums_index[left]] != target) {
-            while (left < right && nums[nums_index[right]] + nums[nums_index[left]] > target) {
-                right--;
-            }
-            while (left < right && nums[nums_index[right]] + nums[nums_index[left]] < target) {
-                left++;
-            }        
+        while(left < right && nums[nums_index[right]] + nums[nums_index[left]] < target) {
+            left++;
         }
-        vector<int> answer(0,1);
+        assert(nums[nums_index[right]] + nums[nums_index[left]] == target);
+        vector<int> answer(2,1);
         if (nums_index[right] > nums_index[left]) {
-            answer[0] = nums_index[left];
-            answer[1] = nums_index[right];
+            answer[0] = nums_index[left] + 1;
+            answer[1] = nums_index[right] + 1;
         }
         else {
-            answer[0] = nums_index[right];
-            answer[1] = nums_index[left];        
+            answer[0] = nums_index[right] + 1;
+            answer[1] = nums_index[left] + 1;        
         }
     
         return answer;
