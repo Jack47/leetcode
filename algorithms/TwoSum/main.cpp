@@ -34,12 +34,13 @@ public:
         std::sort(nums_index.begin(), nums_index.end(), compare);
         int right = numsSize-1;
         int left = 0;
-
-        while (left < right && nums[nums_index[right]] + nums[nums_index[left]] > target) {
-            --right;
-        }
-        while(left < right && nums[nums_index[right]] + nums[nums_index[left]] < target) {
-            left++;
+        while (left < right && (nums[nums_index[right]] + nums[nums_index[left]] != target)) {
+            while (left < right && nums[nums_index[right]] + nums[nums_index[left]] > target) {
+                --right;
+            }
+            while(left < right && nums[nums_index[right]] + nums[nums_index[left]] < target) {
+                left++;
+            }
         }
         assert(nums[nums_index[right]] + nums[nums_index[left]] == target);
         vector<int> answer(2,1);
