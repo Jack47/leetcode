@@ -17,6 +17,9 @@ public:
                 answer[1] = i + 1;
                 break;
             }
+            else {
+                nums_map[nums[i]] = i;
+            }
         }
 
         return answer;
