@@ -7,22 +7,26 @@
 using namespace std;
 
 void topologicalSort(const vector<vector<int> >& adjacent_matrix, vector<int>* order) {
+    if (adjacent_matrix.size() == 0) {
+        return;
+    }
+    assert(adjacent_matrix.size() == adjacent_matrix[0].size());
     int available[adjacent_matrix.size()];
-    memset(available, 0, sizeof(available)*sizeof(int));
+    memset(available, 0, adjacent_matrix.size()*sizeof(int));
     order->clear();
     stack<int> candidate;
     int in_degree[adjacent_matrix.size()];
-    memset(in_degree, 0, sizeof(in_degree)*sizeof(int));
-    for (int i = 0; i < adjacent_matrix.size(); i++) {
+    memset(in_degree, 0, adjacent_matrix.size()*sizeof(int));
+    for (int i = 0; i < static_cast<int>(adjacent_matrix.size()); i++) {
         const vector<int> weight = adjacent_matrix[i];
-        for (int j = 0; j < weight.size(); j++) {
-            if (weight[j] > 0 && weight[j] < INT_MAX) {
+        for (int j = 0; j < static_cast<int>(weight.size()); j++) {
+            if (weight[j] > 0) {
                 ++in_degree[j];
             }
         }
     }
 
-    for (int i = 0; i < sizeof(in_degree); i++) {
+    for (int i = 0; i < static_cast<int>(adjacent_matrix.size()); i++) {
         if (in_degree[i] == 0) {
             candidate.push(i);
         }
@@ -33,8 +37,8 @@ void topologicalSort(const vector<vector<int> >& adjacent_matrix, vector<int>* o
         order->push_back(vertex);
         candidate.pop();
         const vector<int> weight = adjacent_matrix[vertex];
-        for (int i = 0; i < weight.size(); i++) {
-            if (weight[i] > 0 && weight[i] < INT_MAX) {
+        for (int i = 0; i < static_cast<int>(weight.size()); i++) {
+            if (weight[i] > 0) {
                 --in_degree[i];
                 if (in_degree[i] == 0) {
                     candidate.push(i);
@@ -45,10 +49,10 @@ void topologicalSort(const vector<vector<int> >& adjacent_matrix, vector<int>* o
 }
 void calculateSingleSourceShortestDistance(const vector<vector<int> >& adjacent_matrix, const int single_source_vertex, vector<int>* shortestDistance) {
     vector<int> order;
-    topologicalSort(adjacent_matrix, order);
+    topologicalSort(adjacent_matrix, &order);
     vector<vector<int> > distance_matrix;
     for (int i = 0; i < static_cast<int>(shortestDistance->size()); i++) {
-        shortestDistance[i] = INT_MAX;
+        (*shortestDistance)[i] = INT_MAX;
     }
     if (adjacent_matrix.size() == 0) {
         return;
@@ -77,8 +81,8 @@ void calculateSingleSourceShortestDistance(const vector<vector<int> >& adjacent_
             }
         }
     }
-    for (int i = 0; i < distance_matrix.size(); i++) {
-        shortestDistance[i] = distance_matrix[single_source_vertex][i];
+    for (int i = 0; i < static_cast<int>(distance_matrix.size()); i++) {
+        (*shortestDistance)[i] = distance_matrix[single_source_vertex][i];
     }
 }
 int main() {

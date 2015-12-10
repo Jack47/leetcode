@@ -6,22 +6,26 @@
 using namespace std;
 
 void topologicalSort(const vector<vector<int> >& adjacent_matrix, vector<int>* order) {
+    if (adjacent_matrix.size() == 0) {
+        return;
+    }
+    assert(adjacent_matrix.size() == adjacent_matrix[0].size());
     int available[adjacent_matrix.size()];
-    memset(available, 0, sizeof(available)*sizeof(int));
+    memset(available, 0, adjacent_matrix.size()*sizeof(int));
     order->clear();
     stack<int> candidate;
     int in_degree[adjacent_matrix.size()];
-    memset(in_degree, 0, sizeof(in_degree)*sizeof(int));
-    for (int i = 0; i < adjacent_matrix.size(); i++) {
+    memset(in_degree, 0, adjacent_matrix.size()*sizeof(int));
+    for (int i = 0; i < static_cast<int>(adjacent_matrix.size()); i++) {
         const vector<int> weight = adjacent_matrix[i];
-        for (int j = 0; j < weight.size(); j++) {
+        for (int j = 0; j < static_cast<int>(weight.size()); j++) {
             if (weight[j] > 0) {
                 ++in_degree[j];
             }
         }
     }
 
-    for (int i = 0; i < sizeof(in_degree); i++) {
+    for (int i = 0; i < static_cast<int>(adjacent_matrix.size()); i++) {
         if (in_degree[i] == 0) {
             candidate.push(i);
         }
@@ -32,7 +36,7 @@ void topologicalSort(const vector<vector<int> >& adjacent_matrix, vector<int>* o
         order->push_back(vertex);
         candidate.pop();
         const vector<int> weight = adjacent_matrix[vertex];
-        for (int i = 0; i < weight.size(); i++) {
+        for (int i = 0; i < static_cast<int>(weight.size()); i++) {
             if (weight[i] > 0) {
                 --in_degree[i];
                 if (in_degree[i] == 0) {
@@ -58,7 +62,26 @@ int main() {
         adjacent_matrix.push_back(row);
     }
     topologicalSort(adjacent_matrix, &order);
-    for (int i = 0; i < order.size(); i++) {
+    for (int i = 0; i < static_cast<int>(order.size()); i++) {
+        printf("%d\t", order[i]);
+    }
+    printf("\n");
+
+    int matrix2[][6] = {
+        {0, 1, 0, 1, 0, 0},
+        {0, 0, 1, 0, 1, 1},
+        {0, 0, 0, 0, 1, 1},
+        {0, 1, 1, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 1, 0},
+    };
+    adjacent_matrix.clear();
+    for(int i = 0; i < 6; i++) {
+        vector<int> row(matrix2[i], matrix2[i]+6);
+        adjacent_matrix.push_back(row);
+    }
+    topologicalSort(adjacent_matrix, &order);
+    for (int i = 0; i < static_cast<int>(order.size()); i++) {
         printf("%d\t", order[i]);
     }
     printf("\n");
