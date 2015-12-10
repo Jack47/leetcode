@@ -23,12 +23,15 @@ public:
     // find kth number in sorted arrays a and b start from aStart and bStart respectively
     int findKth(const vector<int>& a, int aStart, const vector<int>& b, int bStart, int k) {
         if (aStart >= static_cast<int>(a.size())) { // then kth element must in b, and k == 1
+            printf("aStart:[%d]>=a.size:[%zu],k:[%d]\n", aStart, a.size(), k);
             return b[bStart + k - 1];
         }
         if (bStart >= static_cast<int>(b.size())) {
+            printf("bStart:[%d]>=b.size:[%zu],k:[%d]\n", bStart, b.size(), k);            
             return a[aStart + k - 1];
         }
-        if (k == 1) { // 
+        if (k == 1) { //
+            printf("aStart:[%d], a.size:[%zu],bStart:[%d], b.size:[%zu], k:[%d]\n", aStart, a.size(), bStart, b.size(), k);
             return min(a[aStart], b[bStart]);
         }
         int aMid = INT_MAX;
