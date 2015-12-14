@@ -5,7 +5,10 @@
 #include <vector>
 
 #include <stdio.h>
-
+/*
+  find the single source shortest distance in undirected acyclic graph. There maybe unreachable vertex, the distance is -1;
+  https://www.hackerrank.com/challenges/dijkstrashortreach
+ */
 using namespace std;
 struct Dist {
     int _len;
@@ -42,7 +45,9 @@ void calculateSingleSourceShortestDistance(const vector<vector<int> >& adjacent_
     }
 
     for (int visited_num = 1; visited_num < static_cast<int>(adjacent_matrix.size()); visited_num++) {
-        assert(next_dist.size() > 0);
+        if (next_dist.size() == 0) {
+            break;
+        }
         Dist dist = next_dist.top();
         while (visited[dist._vertex] == true) {
             next_dist.pop();
