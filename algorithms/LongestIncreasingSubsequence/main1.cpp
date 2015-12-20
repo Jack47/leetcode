@@ -57,7 +57,7 @@ int findLongestIncreasingSubsequence(const int* number, int len) {
         // current len may be largger, find the lower num's len
         found = binarySearch(length_lowest_num, 1, length_lowest_num_count, number[i], &lower_num_len);
         if (found) {
-            longest[number[i]] = lower_num_len;
+            current_len = lower_num_len;
         }
         else {
             assert( lower_num_len >=0 && lower_num_len <= length_lowest_num_count);
@@ -65,6 +65,7 @@ int findLongestIncreasingSubsequence(const int* number, int len) {
                 current_len = 1;
             }
             else { // lowest number exist, len is the lower number's longest increasing len + 1.
+                assert(length_lowest_num[lower_num_len] < number[i]);
                 current_len = lower_num_len + 1;
             }
         }
@@ -78,6 +79,9 @@ int findLongestIncreasingSubsequence(const int* number, int len) {
         if (current_len > max_len) {
             max_len = current_len;
         }
+    }
+    for (int i = 0; i < len; i++) {
+        // printf ("%d %d\n", number[i], longest[i]);
     }
     return max_len;
 }
