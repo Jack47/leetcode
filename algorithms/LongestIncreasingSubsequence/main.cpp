@@ -1,27 +1,35 @@
+#include <string.h>
+
 #include <cmath>
 #include <cstdio>
 #include <vector>
 #include <iostream>
 #include <algorithm>
+
 using namespace std;
 /*
-  https://www.hackerrank.com/challenges/longest-increasing-subsequent
- */
+    https://www.hackerrank.com/challenges/longest-increasing-subsequent
+    O(N^2)的解法，这种解法在1M个数据时，速度非常慢，半个小时都跑不完
+*/
+const int kMaxNumberSize = 1000000;
+int longest[kMaxNumberSize];
 int findLongestIncreasingSubsequence(const int* number, int len) {
-    int longest[len];
-    longest[0] = 1;
     int max_len = 1;
-    
+
+    for (int i = 0; i < len; i++) {
+        longest[i] = 1;
+    }
     for (int i = 1; i < len; i++) {
-        int j = i-1;
-        while (j >= 0 && number[j] >= number[i]) {
-            j--;
-        }
-        if (j >= 0) {
-            longest[i] = longest[j] + 1;
-        }
-        else {
-            longest[i] = 1;
+        for (int j = i-1; j >=0; j--) {
+            if (number[j] < number[i]) {
+                if (longest[j] == max_len) {
+                    longest[i] = max_len + 1;
+                    break;
+                }
+                else if (longest[j] + 1 > longest[i]) {
+                    longest[i] = longest[j] + 1;
+                }
+            }
         }
         if (longest[i] > max_len) {
             max_len = longest[i];
@@ -29,15 +37,16 @@ int findLongestIncreasingSubsequence(const int* number, int len) {
     }
     return max_len;
 }
+
 int main() {
     int n;
     scanf("%d", &n);
     int number[n];
-    for(int i = 0; i < n; i++) {
-        scanf("%d", number+i);
+    for(int j = 0; j < n; j++) {
+        scanf("%d", number+j);
     }
     int len = findLongestIncreasingSubsequence(number, n);
     printf("%d\n", len);
-    
+
     return 0;
 }
