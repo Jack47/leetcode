@@ -7,7 +7,6 @@ import org.junit.Test;
 public class MyAtoITest {
     @Test
     public void testMyAtoITest() {
-        Integer.parseInt();
         // ordinary value
         MyAtoi myAtoi = new MyAtoi();
         int num = myAtoi.myAtoi("123");
