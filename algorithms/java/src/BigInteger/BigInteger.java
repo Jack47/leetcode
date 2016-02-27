@@ -180,6 +180,9 @@ public class BigInteger {
             int carrier = 0;
             int num1 = byteToUnsignedInt(this.content[i]);
             int p = 0;
+            if (num1 == 0) {
+                continue;
+            }
             for (int j = other.content.length - 1; j >= 0; j--) {
                 int num2 = byteToUnsignedInt(other.content[j]);
                 p = num2 * num1 + carrier;
