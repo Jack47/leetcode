@@ -26,10 +26,13 @@ public class SqrtTest {
         result = sqrt.mySqrt(1025);
         assertEquals(32, result);
 
+        result = sqrt.mySqrt(2147395599);
+        assertEquals(46339, result);
+
         result = sqrt.mySqrt(Integer.MAX_VALUE);
         assertEquals(46340, result);
 
-        Math.sqrt(Integer.MIN_VALUE);
-        assertEquals(65536, result);
+        result = sqrt.mySqrt(Integer.MIN_VALUE);
+        assertEquals(46340, result);
     }
 }

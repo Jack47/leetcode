@@ -1,10 +1,15 @@
 package Sqrt;
 
+/**
+ * https://leetcode.com/problems/sqrtx/
+ * pow table can be removed, calculate on the fly.
+ * binary search answer
+ */
 public class Sqrt {
     protected static int powTable[];
 
     static {
-        powTable = new int[2 << 15];
+        powTable = new int[46340+1]; // int(sqrt(2^31-1))
         for (int i = 0; i < powTable.length; i++) {
             powTable[i] = i * i;
         }
