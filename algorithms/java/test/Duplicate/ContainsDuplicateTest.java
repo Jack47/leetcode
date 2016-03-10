@@ -18,4 +18,21 @@ public class ContainsDuplicateTest {
         hasDuplicate = containsDuplicate.containsDuplicate(new int[] {1});
         assertEquals(false, hasDuplicate);
     }
+
+    @Test
+    public void testII() {
+        ContainsDuplicateII containsDuplicate = new ContainsDuplicateII();
+        int nums[] = new int[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14};
+        boolean hasDuplicate = containsDuplicate.containsNearbyDuplicate(nums, 10);
+        assertEquals(false, hasDuplicate);
+
+        hasDuplicate = containsDuplicate.containsNearbyDuplicate(new int[] {1,2,3,4,5,6,7,8,9,10,1}, 10);
+        assertEquals(true, hasDuplicate);
+
+        hasDuplicate = containsDuplicate.containsNearbyDuplicate(new int[] {1}, 1);
+        assertEquals(false, hasDuplicate);
+
+        hasDuplicate = containsDuplicate.containsNearbyDuplicate(new int[] {1, 2, 3, 1, 1}, 2);
+        assertEquals(true, hasDuplicate);
+    }
 }
