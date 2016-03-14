@@ -68,5 +68,9 @@ public class SimplifyPathTest {
         path = "/home//a/";
         result = simplifyPath.simplifyPath(path);
         assertEquals("/home/a", result);
+
+        path = "/home/a../";
+        result = simplifyPath.simplifyPath(path);
+        assertEquals("/home/a..", result);
     }
 }
