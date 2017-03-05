@@ -1,4 +1,4 @@
-package StringToInteger;
+package StringRelated;
 
 // Validate if a given string is numeric
 // https://leetcode.com/problems/valid-number/?tab=Description

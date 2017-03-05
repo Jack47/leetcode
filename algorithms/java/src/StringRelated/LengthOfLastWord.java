@@ -1,4 +1,4 @@
-package StringToInteger;
+package StringRelated;
 
 public class LengthOfLastWord {
     public int lengthOfLastWord(String s) {

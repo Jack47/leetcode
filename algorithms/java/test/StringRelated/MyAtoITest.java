@@ -1,4 +1,4 @@
-package StringToInteger;
+package StringRelated;
 
 import static org.junit.Assert.assertEquals;
 

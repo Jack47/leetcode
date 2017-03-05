@@ -1,4 +1,4 @@
-package StringToInteger;
+package StringRelated;
 
 public class MyAtoi {
     public static final int INTEGER_MAX_VALUE = 0x7FFFFFFF;
