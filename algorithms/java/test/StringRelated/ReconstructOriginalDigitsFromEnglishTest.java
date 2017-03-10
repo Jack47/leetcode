@@ -79,30 +79,68 @@ public class ReconstructOriginalDigitsFromEnglishTest {
         expected['v'-'a'] = 1;
         expected[sol.Total_Index - 1] = 19;
         assertArrayEquals(expected, currentDigits);
+
+        currentDigits = sol.getCurrentDigits("fourtwoonethreefive");
+        Arrays.fill(expected, 0);
+        expected['o'-'a'] = 3;
+        expected['n'-'a'] = 1;
+        expected['e'-'a'] = 4;
+        expected['t'-'a'] = 2;
+        expected['w'-'a'] = 1;
+        expected['h'-'a'] = 1;
+        expected['r'-'a'] = 2;
+        expected['f'-'a'] = 2;
+        expected['u'-'a'] = 1;
+        expected['i'-'a'] = 1;
+        expected['v'-'a'] = 1;
+        expected[sol.Total_Index - 1] = 19;
+        assertArrayEquals(expected, currentDigits);
     }
 
     @Test
     public void testFormDigits() {
         ReconstructOriginalDigitsFromEnglish sol = new ReconstructOriginalDigitsFromEnglish();
-        String s = sol.originalDigits("one");
-        assertEquals("1", s);
 
-        s = sol.originalDigits("one");
-        assertEquals("1", s);
-
+        String s = sol.originalDigits("zero");
+        assertEquals("0", s);
+        s = sol.originalDigits("eight");
+        assertEquals("8", s);
         s = sol.originalDigits("two");
         assertEquals("2", s);
+        s = sol.originalDigits("six");
+        assertEquals("6", s);
 
+
+        s = sol.originalDigits("five");
+        assertEquals("5", s);
+        s = sol.originalDigits("seven");
+        assertEquals("7", s);
+        s = sol.originalDigits("nine");
+        assertEquals("9", s);
+        s = sol.originalDigits("one");
+        assertEquals("1", s);
+        s = sol.originalDigits("four");
+        assertEquals("4", s);
         s = sol.originalDigits("three");
         assertEquals("3", s);
 
         s = sol.originalDigits("twoonethree");
         assertEquals("123", s);
 
+        s = sol.originalDigits("eightsevensevensixfivefourthreethreetwooneone");
+        assertEquals("11233456778", s);
+
+        s = sol.originalDigits("sevensixfivefour");
+        assertEquals("4567", s);
+
+        //45679
+        s = sol.originalDigits("ninefivesixsevenfour");
+        assertEquals("45679", s);
+
         s = sol.originalDigits("nineeightsevensevensixfivefourthreethreetwooneone");
         assertEquals("112334567789", s);
 
         s = sol.originalDigits("onetwothreefourfivesixnineeightsevenonetwothreefourfivesixnineeightsevenonetwothreefourfivesixnineeightsevenonetwothreefour");
-        assertEquals("111111111111111111111111111122222222222222333333333333333333333333333344444444444444555555555555556666666666666677777777777777777777777777778888888888888899999999999999", s);
+        assertEquals("1111222233334444555666777888999", s);
     }
 }

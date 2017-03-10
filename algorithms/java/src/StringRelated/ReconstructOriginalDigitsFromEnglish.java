@@ -1,92 +1,18 @@
 package StringRelated;
 
 import java.util.Arrays;
-
+// https://leetcode.com/problems/reconstruct-original-digits-from-english/?tab=Description
+// Given a non-empty string containing an out-of-order English representation of digits 0-9,
+// output the digits in ascending order.
+// Input length is less than 50,000
 public class ReconstructOriginalDigitsFromEnglish {
-    public class Key {
-        public Key(char ch, int num) {
-            this.ch = ch;
-            this.num = num;
-        }
 
-        public char ch;
-        public int num;
-    }
-
-    private Key table[][] = {
-            {new Key('z', 1), new Key('e', 1), new Key('r', 1), new Key('o', 1)}, // zero
-            {new Key('o', 1), new Key('n', 1), new Key('e', 1)}, // one
-            {new Key('t', 1), new Key('w', 1), new Key('o', 1)}, // two
-            {new Key('t', 1), new Key('h', 1), new Key('r', 1), new Key('e', 2)}, // three
-            {new Key('f', 1), new Key('o', 1), new Key('u', 1), new Key('r', 1)}, // four
-            {new Key('f', 1), new Key('i', 1), new Key('v', 1), new Key('e', 1)}, // five
-            {new Key('s', 1), new Key('i', 1), new Key('x', 1)}, // six
-            {new Key('s', 1), new Key('e', 2), new Key('v', 1), new Key('n', 1)}, // seven
-            {new Key('e', 1), new Key('i', 1), new Key('g', 1), new Key('h', 1), new Key('t',
-                    1)}, // eight
-            {new Key('n', 2), new Key('i', 1), new Key('e', 1)}, // nine
-    };
+    static char[] result = new char[50000 / 3]; // one digit contains at least three chars
+    int resultLen = 0;
     // int[] currentDigits stores current numbers of digits
     // num = currentDigits[0] means have `number` 0.
     // remainNumber = currentDigits[27] means total remain number
     protected static int Total_Index = 27;
-
-    static char[] result = new char[50000 / 3]; // one digit contains at least three chars
-    int resultLen = 0;
-
-    private void revertAll(int digit, int[] currentDigits) {
-        revertFractional(digit, currentDigits, table[digit].length - 1);
-    }
-
-    private void revertFractional(int digit, int[] currentDigits, int currentEnd) {
-        // revert currentDigits
-        Key[] digits = table[digit];
-        for (; currentEnd >= 0; currentEnd--) {
-            int d = digits[currentEnd].ch - 'a';
-            int num = digits[currentEnd].num;
-            currentDigits[d] += num;
-            currentDigits[Total_Index - 1] += num;
-
-        }
-    }
-
-    private boolean formDigit(int[] currentDigits) {
-        if (currentDigits[Total_Index - 1] == 0) {
-            return true;
-        }
-        for (char j = 0; j <= 9; j++) {
-            Key[] digits = table[j];
-            boolean found = true;
-            int i;
-            for (i = 0; i < digits.length; i++) {
-                int d = digits[i].ch - 'a';
-                int num = digits[i].num;
-                if (currentDigits[d] >= num) {
-                    currentDigits[d] -= num;
-                    currentDigits[Total_Index - 1] -= num;
-                } else {
-                    found = false;
-                    break;
-                }
-            }
-            if (!found) {
-                revertFractional(j, currentDigits, i - 1);
-                continue;
-            }
-
-            result[resultLen++] = (char)(j + '0');
-            result[resultLen] = '\0';
-            System.out.printf("%dth: %s\n", resultLen, result);
-            boolean next = formDigit(currentDigits);
-            if (next == false) {
-                resultLen--;
-                revertAll(j, currentDigits); // revert and continue to try another digit
-            } else {
-                return true;
-            }
-        }
-        return false;
-    }
 
     protected int[] getCurrentDigits(String s) {
         int[] digits = new int[Total_Index];
@@ -98,10 +24,55 @@ public class ReconstructOriginalDigitsFromEnglish {
         return digits;
     }
 
-    public String originalDigits(String s) {
-        int[] currentDigits = getCurrentDigits(s);
+    protected class Fact {
+        public Fact(String chars, String uniqueChars, char digit) {
+            this.chars = chars;
+            this.uniqueChars = uniqueChars;
+            this.digit = digit;
+        }
+
+        String chars;
+        String uniqueChars;
+        char digit;
+    }
+
+    Fact[] Facts = new Fact[]{
+            new Fact("zero", "z", '0'),
+            new Fact("eight", "g", '8'),
+            new Fact("two", "w", '2'),
+            // order is important!!!  6 is before 7.
+            new Fact("six", "x", '6'),
+
+            new Fact("seven", "s", '7'),
+
+            new Fact("five", "fv", '5'),
+            new Fact("nine", "ie", '9'),
+            new Fact("one", "on", '1'),
+            new Fact("four", "fr", '4'),
+            new Fact("three", "th", '3')};
+
+    protected String formDigit(int[] currentDigits) {
         resultLen = 0;
-        formDigit(currentDigits);
+        for (int j = 0; j < Facts.length && currentDigits[Total_Index - 1] > 0; j++) {
+            int minLen = Integer.MAX_VALUE;
+            int i;
+            for (i = 0; i < Facts[j].uniqueChars.length() && currentDigits[Facts[j].uniqueChars.charAt(i)
+                    - 'a'] > 0; i++) {
+                if (currentDigits[Facts[j].uniqueChars.charAt(i) - 'a'] < minLen) {
+                    minLen = currentDigits[Facts[j].uniqueChars.charAt(i) - 'a'];
+                }
+            }
+            if (i == Facts[j].uniqueChars.length()) {
+                for (i = 0; i < Facts[j].chars.length(); i++) {
+                    currentDigits[Facts[j].chars.charAt(i) - 'a'] -= minLen;
+                    currentDigits[Total_Index - 1] -= minLen;
+                    assert(currentDigits[Facts[j].chars.charAt(i) - 'a'] >= 0);
+                }
+                for (i = 0; i < minLen; i++) {
+                    result[resultLen++] = Facts[j].digit;
+                }
+            }
+        }
         char[] ret = Arrays.copyOf(result, resultLen);
         Arrays.sort(ret);
         StringBuilder resultStr = new StringBuilder(ret.length);
@@ -109,5 +80,10 @@ public class ReconstructOriginalDigitsFromEnglish {
             resultStr.append(ret[i]);
         }
         return resultStr.toString();
+    }
+
+    public String originalDigits(String s) {
+        int[] currentDigits = getCurrentDigits(s);
+        return formDigit(currentDigits);
     }
 }
