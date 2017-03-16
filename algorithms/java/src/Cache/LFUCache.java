@@ -1,148 +1,128 @@
 package Cache;
 
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+
 // Least Frequently Used cache
+// Design and implement a data structure for Least Frequently Used(LFU) cache. It should support
+// the following operations: get and put
+// get(key) - Get the value (will always be positive) of the key if the key exists in the cache,
+// otherwise return -1.
+// put(key, value) - Set or insert the value if the key is not already present. When the cache
+// reaches its capacity, it should invalidate the least frequently used items before inserting a
+// new item. For the purpose of this problem, when there is a tie (i.e.,
+// two or more keys that have the same frequency), the least recently used key would be evicted.
 public class LFUCache {
-    protected class Item {
-        public Item(int key, int value) {
-            this.key = key;
-            this.value = value;
-            this.freq = 0;
-            this.prev = -1;
-            this.next = -1;
+    protected class FreqNode {
+        public FreqNode(int freq) {
+            this.keys = new LinkedHashSet<Integer>();
+            this.freq = freq;
+            this.prev = null;
+            this.next = null;
         }
 
-        public int key; // incase of collision
+        public LinkedHashSet<Integer> keys;
         public int freq;
-        public int value;
-        public int prev; // store prev item index which has lower priority than this item.
-        public int next; // store next item index which has high priority than this item.
+        public FreqNode prev; // store prev FreqNode which has lower freq than this item.
+        public FreqNode next; // store next FreqNode which has high freq than this item.
     }
 
-    protected Item[] items;
     protected int capacity;
-    protected int head;
-    protected int zeroFreqTail;
+    protected FreqNode head; // store the head of the FreqNodes
+    protected HashMap<Integer, Integer> values;
+    protected HashMap<Integer, FreqNode> freqNodes; // fast retrieve (O(1)) one key's current
+    // FreqNode
 
     public LFUCache(int capacity) {
-        this.capacity = 0;
-        this.items = new Item[capacity];
-        head = -1;
-        zeroFreqTail = -1;
+        this.capacity = capacity;
+        head = null;
+        values = new HashMap<Integer, Integer>();
+        freqNodes = new HashMap<Integer, FreqNode>();
     }
 
     public int get(int key) {
-        int pos = key % items.length;
-
-        int count = 0;
-        for (; count < capacity && items[pos] != null; pos = (pos + 1) % items.length) {
-            if (items[pos].key == key) {
-                break;
-            }
-            count++;
-        }
-        if (items[pos] == null || count == capacity) {
+        if (values.get(key) == null) {
             return -1;
         }
-        items[pos].freq++;
 
-        // find new position for key
-        if (items[pos].next != -1 && items[pos].freq >= items[items[pos].next].freq) {
-            if (items[pos].prev >= 0) {
-                items[items[pos].prev].next = items[pos].next;
-            }
-            items[items[pos].next].prev = items[pos].prev;
-            int i;
-            for (i = items[pos].next; items[i].next != -1 && items[i].freq <= items[pos].freq; i
-                    = items[pos].next) {
-            }
-            if (head == pos) {
-                head = items[pos].next;
-            }
-            if (zeroFreqTail == pos) { // use previous
-                zeroFreqTail = items[pos].prev;
-            }
-            if (items[i].freq <= items[pos].freq) {
-                items[pos].next = items[i].next;
-                items[i].next = pos;
-                items[pos].prev = i;
-            } else { // items[i].freq > items[pos].freq
-                items[pos].prev = items[i].prev;
-                items[items[i].prev].next = pos;
-                items[i].prev = pos;
-                items[pos].next = i;
-            }
-        }
-        return items[pos].value;
+        // Don't need freqNodes.remove(key) here,
+        // Because freqNodes.put(key, freqNode.next) will override the original value;
+        increaseFreq(key);
+        return values.get(key);
     }
+    // increase key's frequency
+    // freqNode is used to quickly find key's neighbour
+    protected void increaseFreq(int key) {
+        FreqNode freqNode = freqNodes.get(key);
+        if (freqNode.next != null && freqNode.next.freq == freqNode.freq + 1) {
+            freqNode.next.keys.add(key);
+        }
+        else { //(freqNode.next == null || freqNode.next.freq > freqNode.freq)
+            FreqNode tmp = new FreqNode(freqNode.freq + 1);
+            tmp.keys.add(key);
+            tmp.next = freqNode.next;
+            tmp.prev = freqNode;
+            if(freqNode.next != null) {
+                freqNode.next.prev = tmp;
+            }
+            freqNode.next = tmp;
+        }
+        // Don't need freqNodes.remove(key) here,
+        // Because freqNodes.put(key, freqNode.next) will override the original value;
+        freqNodes.put(key, freqNode.next);
 
+        deleteFromFreqNode(key, freqNode);
+    }
+    // delete key from freqNode and freqNodes
+    protected void deleteFromFreqNode(int key, FreqNode freqNode) {
+        freqNode.keys.remove(key);
+        // un-reference this empty freqNode
+        if (freqNode.keys.isEmpty()) {
+            if (freqNode == head) {
+                head = head.next;
+            }
+            if (freqNode.prev != null) {
+                freqNode.prev.next = freqNode.next;
+            }
+            if (freqNode.next != null) {
+                freqNode.next.prev = freqNode.prev;
+            }
+        }
+    }
+    protected void evictItem() {
+        int evictKey = -1;
+        for(int n : head.keys) {
+            evictKey = n;
+            break;
+        }
+        deleteFromFreqNode(evictKey, head);
+        freqNodes.remove(evictKey);
+        values.remove(evictKey);
+    }
+    protected void addToHead(int key) {
+        if (head == null || head.freq > 0) {
+            FreqNode n = new FreqNode(0);
+            n.next = head;
+            if (head != null) {
+                head.prev = n;
+            }
+            head = n;
+        }
+        head.keys.add(key);
+        freqNodes.put(key, head);
+    }
     public void put(int key, int value) {
-        int pos = key % items.length;
-        // find pos
-        if (capacity == items.length) { // evict
-            pos = head;
-            head = items[head].next;
-            // advance head
-            if (head >= 0) {
-                items[head].prev = -1;
-            }
-            // backtrack zeroFreqTail
-            if (pos == zeroFreqTail) {
-                zeroFreqTail = -1;
-            }
-        } else {
-            int count = 0;
-            for (; count <= capacity; pos = (pos + 1) % items.length) {
-                if (items[pos] == null) {
-                    break;
-                }
-                count++;
-            }
-            assert (count <= capacity);
-            items[pos] = new Item(key, value);
-            this.capacity++;
+        if (capacity == 0) return;
+
+        if(values.get(key) == null && capacity == values.size()) {
+            evictItem();
         }
-
-        items[pos].freq = 0;
-        items[pos].key = key;
-        items[pos].value = value;
-
-        // place this item to the trail of the zero freq list.
-        items[pos].prev = zeroFreqTail;
-        // this item's is more fresh that other `freq=0` items
-        if (zeroFreqTail < 0) { // self is new head, is new zeroFreqTail
-            items[pos].next = head;
-            if (head >= 0) {
-                items[head].prev = pos;
-            }
-            head = pos;
+        // zero freq node
+        if (values.get(key) == null) {
+            addToHead(key);
         }
-        else {
-            items[pos].next = items[zeroFreqTail].next;
-            items[zeroFreqTail].next = pos;
-            if (items[pos].next >= 0) {
-                items[items[pos].next].prev = pos;
-            }
-        }
-        zeroFreqTail = pos;
+        values.put(key, value);
 
-//        if (zeroFreqTail < 0 && (pos != head)) {
-//            items[pos].next = head;
-//            if (head >= 0) {
-//                items[head].prev = pos;
-//            }
-//            head = pos;
-//        }
-//        else if (zeroFreqTail >= 0) {
-//            items[pos].next = items[zeroFreqTail].next;
-//            if (items[zeroFreqTail].next >= 0) {
-//                items[items[zeroFreqTail].next].prev = pos;
-//            }
-//            items[zeroFreqTail].next = pos;
-//        }
-
-        if (this.capacity == 1) {
-            head = pos;
-        }
-
+        increaseFreq(key);
     }
 }
