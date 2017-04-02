@@ -26,9 +26,6 @@ public class RegularExpressionMatchingTest {
         result = r.isMatch("dabc", ".abc");
         assertEquals(true, result);
 
-        result = r.isMatch("eabc", ".abc");
-        assertEquals(true, result);
-
         result = r.isMatch("eabbbbc", ".ab*bc");
         assertEquals(true, result);
 
@@ -65,13 +62,22 @@ public class RegularExpressionMatchingTest {
         result = r.isMatch("aaa", "a*");
         assertEquals(true, result);
 
-        result = r.isMatch("aa", "c*a*b*");
-        assertEquals(true, result);
-
-        result = r.isMatch("aab", "c*a*b*");
+        result = r.isMatch("", ".*");
         assertEquals(true, result);
 
         result = r.isMatch("a", "c*.");
+        assertEquals(true, result);
+
+        result = r.isMatch("bc", "a*bc");
+        assertEquals(true, result);
+
+        result = r.isMatch("aa", ".*a");
+        assertEquals(true, result);
+
+        result = r.isMatch("a", ".*a");
+        assertEquals(true, result);
+
+        result = r.isMatch("aaab", "a*b*");
         assertEquals(true, result);
     }
     @Test
@@ -86,13 +92,13 @@ public class RegularExpressionMatchingTest {
         result = r.isMatch("aa", "a*a");
         assertEquals(true, result);
 
-        result = r.isMatch("aa", "a*aa");
+        result = r.isMatch("aa", "a*a");
         assertEquals(true, result);
 
         result = r.isMatch("a", "a*a");
         assertEquals(true, result);
 
-        result = r.isMatch("bbbba", ".*a*a");
+        result = r.isMatch("bbbba", ".*a*");
         assertEquals(true, result);
 
         result = r.isMatch("a", "ab*");

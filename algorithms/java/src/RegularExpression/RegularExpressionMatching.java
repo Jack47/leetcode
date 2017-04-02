@@ -6,57 +6,23 @@ package RegularExpression;
 // '*' Matches zero or more of the preceding element.
 public class RegularExpressionMatching {
     public boolean isMatch(String str, String pattern) {
-        int j = 0;
-        int i = 0;
-        char preceding = 0;
-        if (str.isEmpty() && pattern.isEmpty()) {
+        return isMatch(str, 0, pattern, 0);
+    }
+
+    protected boolean isMatch(String str, int i, String pattern, int j) {
+        if (str.length() == i  && pattern.length() == j) {
             return true;
         }
-        while (i < pattern.length() && j < str.length()) {
-            if (pattern.charAt(i) == '.') {
-                preceding = '.';
-                i++;
-                j++;
-            } else if (pattern.charAt(i) == '*') {
-                int counter = 0;
-                if (isMatch(str.substring(j - 1), pattern.substring(i + 1))) { // "a*aa", "aa";
-                    return true;
-                }
-                do {
-                    if (isMatch(str.substring(j + counter), pattern.substring(i + 1))) {
-                        return true;
-                    }
-                    counter++;
-                }
-                while (j + counter <= str.length() && (str.charAt(j + counter - 1) == preceding
-                        || preceding == '.'));
-                return false;
-            } else if (str.charAt(j) == pattern.charAt(i)) {
-                preceding = pattern.charAt(i);
-                i++;
-                j++;
-            } else if (i + 1 < pattern.length() && pattern.charAt(i + 1) == '*') { // "b*a", "a";
-                i = i + 2; // skip this pattern
-            } else {
-                return false;
-            }
-        }
-        if (j != str.length()) {
+        if (pattern.length() == j) {
             return false;
         }
-
-        if (i == pattern.length()
-                || (i + 1 == pattern.length() && pattern.charAt(i) == '*')
-                || (i + 2 == pattern.length() && pattern.charAt(i + 1) == '*')
-                ) {
-            return true;
+        if (pattern.length() > j + 1 && pattern.charAt(j + 1) == '*') { // `c*`, c match 0 or more times
+            return isMatch(str, i, pattern, j + 2) ||
+                    (i < str.length() && (str.charAt(i) == pattern.charAt(j) || pattern.charAt(j) == '.')
+                      && isMatch(str, i+1, pattern, j) );
+        } else {
+            return (i < str.length() && str.charAt(i) == pattern.charAt(j) || pattern.charAt(j) == '.') && isMatch
+                    (str, i + 1, pattern, j + 1);
         }
-
-        // a ab*
-        if (j > 0 && i + 2 == pattern.length() && pattern.charAt(i) == '*') { // "a*a", "a";
-            return isMatch(str.substring(j - 1), pattern.substring(i + 1));
-        }
-
-        return false;
     }
 }
