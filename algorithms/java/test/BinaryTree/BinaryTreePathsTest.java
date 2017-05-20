@@ -1,4 +1,4 @@
-package BinaryTreePaths;
+package BinaryTree;
 
 import static org.junit.Assert.assertEquals;
 
