@@ -35,4 +35,10 @@ public class ContainsDuplicateTest {
         hasDuplicate = containsDuplicate.containsNearbyDuplicate(new int[] {1, 2, 3, 1, 1}, 2);
         assertEquals(true, hasDuplicate);
     }
+    @Test
+    public void testIII() {
+        ContainsDuplicateIII dup = new ContainsDuplicateIII();
+        boolean has = dup.containsNearbyAlmostDuplicate(new int[]{-1,2147483647}, 1, 2147483647);
+        assertEquals(false, has);
+    }
 }
