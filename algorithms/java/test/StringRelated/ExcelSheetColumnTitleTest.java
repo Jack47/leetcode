@@ -18,6 +18,6 @@ public class ExcelSheetColumnTitleTest {
         assertEquals("AZ", s);
 
         s = t.convertToTitle(269);
-        assertEquals("II", s);
+        assertEquals("JI", s);
     }
 }
