@@ -18,8 +18,8 @@ public class SerializeDeserializeTreeTest {
         String data  = sol.serialize(root);
         assertEquals("5,4,x,3,x,x,6,2,x,1,x,x,x", data);
         TreeNode expected = sol.deserialize(data);
-        assertEquals(5, expected.value);
-        assertEquals(4, expected.left.value);
-        assertEquals(6, expected.right.value);
+        assertEquals(5, expected.val);
+        assertEquals(4, expected.left.val);
+        assertEquals(6, expected.right.val);
     }
 }

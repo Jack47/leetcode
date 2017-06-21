@@ -14,7 +14,7 @@ public class SerializeDeserializeTree {
             sb.append(NON + SEPARATOR);
             return;
         }
-        sb.append(root.value + SEPARATOR);
+        sb.append(root.val + SEPARATOR);
         serializeTree(root.left, sb);
         serializeTree(root.right, sb);
     }

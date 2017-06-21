@@ -5,10 +5,10 @@ import java.util.*;
 class TreeNode {
     TreeNode left;
     TreeNode right;
-    int value;
+    int val;
 
     public TreeNode(int val) {
-        value = val;
+        this.val = val;
         left = right = null;
     }
 }
@@ -30,7 +30,7 @@ public class LevelOrderTraversal {
         while (!q.isEmpty()) {
             TreeNode cur = q.poll();
             curLevelVisitedNodeCount++;
-            curLevelNodes.add(cur.value);
+            curLevelNodes.add(cur.val);
             if (cur.left != null) {
                 q.add(cur.left);
                 nextLevelNodeCount++;

@@ -18,7 +18,7 @@ public class BinaryTreeZigzagLevelOrder {
             while (count > 0) {
                 TreeNode c = left ? deque.pollFirst() : deque.pollLast();
                 count--;
-                result.add(c.value);
+                result.add(c.val);
                 if (left) {
                     if (c.left != null) {
                         deque.offerLast(c.left);
@@ -61,8 +61,8 @@ public class BinaryTreeZigzagLevelOrder {
             while (size > 0) {
                 TreeNode c = q.poll();
                 if (left) {
-                    res.add(c.value);
-                } else res.add(res.size() - 1, c.value);
+                    res.add(c.val);
+                } else res.add(res.size() - 1, c.val);
                 if (c.left != null) {
                     q.add(c.left);
                     nextSize++;
