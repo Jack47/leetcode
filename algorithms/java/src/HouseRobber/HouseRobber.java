@@ -7,16 +7,13 @@ package HouseRobber;
 public class HouseRobber {
     public int rob(int[] nums) {
         if (nums.length == 0) return 0;
-        int prevNum0 = 0;
-        int prevNum1 = nums[0];
-        int num0 = 0;
-        int num1 = 0;
+        int dp = nums[0];
+        int ndp = 0;
         for (int i = 1; i < nums.length; i++) {
-            num0 = prevNum0 > prevNum1 ? prevNum0 : prevNum1;
-            num1 = prevNum0 + nums[i];
-            prevNum0 = num0;
-            prevNum1 = num1;
+            int preNdp = ndp;
+            ndp = dp + 0;
+            dp = preNdp + nums[i];
         }
-        return prevNum0 > prevNum1 ? prevNum0 : prevNum1;
+        return Math.max(dp, ndp); // all num is positive, so the ending must be the maximum
     }
 }

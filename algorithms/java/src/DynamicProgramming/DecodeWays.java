@@ -16,8 +16,7 @@ public class DecodeWays {
         for (int i = 2; i < s.length(); i++) {
             ways[i] = (s.charAt(i) == '0' ? 0 : ways[i - 1]);
             num = Integer.parseInt(s.substring(i - 1, i + 1));
-            if (num <= 9) return 0;
-            else if (num <= 26) {
+            if ( num >= 10 && num <= 26) {
                 ways[i] += ways[i - 2];
             }
             if (ways[i] == 0) return 0;
