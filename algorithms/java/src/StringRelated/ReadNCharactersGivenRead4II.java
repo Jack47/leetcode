@@ -1,6 +1,6 @@
 package StringRelated;
 
-public class ReadNCharactersGivenRead4II {
+public class ReadNCharactersGivenRead4II extends Reader4 {
     char[] tbuf;
     int ti;
     int tn;
@@ -14,7 +14,7 @@ public class ReadNCharactersGivenRead4II {
         int i = 0;
         while (i < n) {
             if (ti == 0) {
-                tn = read4(tbuf);
+               // tn = read4(tbuf);
             }
             if(tn == 0) break; // if (tn < 4) break; // it's the end
             buf[i++] = tbuf[ti++];
