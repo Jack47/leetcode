@@ -7,7 +7,7 @@ import org.junit.Test;
 public class AlienDictionaryTest {
     @Test
     public void test() {
-        AlienDictionary d = new AlienDictionary();
+        AlienDictionaryT d = new AlienDictionaryT();
         String[] words = new String[] {"z", "z"};
         String result = d.alienOrder(words);
         assertEquals("z", result);

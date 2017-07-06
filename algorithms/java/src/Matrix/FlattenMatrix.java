@@ -5,53 +5,42 @@ import java.util.List;
 
 // https://leetcode.com/problems/flatten-2d-vector/#/description
 class FlattenMatrix implements Iterator<Integer> {
-    protected List<List<Integer>> vec2d;
-    protected int row;
-    protected int col;
-    protected boolean hasNext;
-
-    public FlattenMatrix(List<List<Integer>> vec2d) {
+    int row, col;
+    List<List<Integer>> vec2d;
+    public Vector2D(List<List<Integer>> vec2d) {
+        row = -1;
+        col = 0;
         this.vec2d = vec2d;
-        this.row = nextValidRow(-1);
-        this.col = 0;
-        this.hasNext = isValidRow(this.row);
-    }
-
-    protected boolean isValidRow(int row) {
-        return row >= 0 && row < this.vec2d.size();
-    }
-
-    protected int nextValidRow(int row) {
-        int r = row;
-        do {
-            r++;
-        } while (r < vec2d.size() && vec2d.get(r).size() == 0);
-
-        if (r == vec2d.size()) {
-            return -1;
-        }
-        return r;
     }
 
     @Override
     public Integer next() {
-        int r = this.row;
-        int c = this.col;
-        if (this.col < vec2d.get(this.row).size() - 1) {
-            this.col++;
-        } else {
-            this.row = nextValidRow(row);
-            this.col = 0;
-        }
-
-        if (!isValidRow(this.row)) {
-            this.hasNext = false;
-        }
-        return vec2d.get(r).get(c);
+        return vec2d.get(row).get(col);
     }
 
     @Override
     public boolean hasNext() {
-        return this.hasNext;
+        if(row >= vec2d.size()) {
+            return false;
+        }
+        if(row == -1 || col == vec2d.get(row).size() -1) {
+            row++;
+            while(row < vec2d.size() && vec2d.get(row).size() == 0) {
+                row++;
+            }
+            col = 0;
+        } else {
+            col++;
+        }
+        return row < vec2d.size();
+    }
+
+    @Override
+    public void remove() {
+        vec2d.get(row).remove(col);
+        col--;
+        if(col == -1) {
+            row--;
+        }
     }
 }
