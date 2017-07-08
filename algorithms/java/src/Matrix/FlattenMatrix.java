@@ -7,7 +7,7 @@ import java.util.List;
 class FlattenMatrix implements Iterator<Integer> {
     int row, col;
     List<List<Integer>> vec2d;
-    public Vector2D(List<List<Integer>> vec2d) {
+    public FlattenMatrix(List<List<Integer>> vec2d) {
         row = -1;
         col = 0;
         this.vec2d = vec2d;
