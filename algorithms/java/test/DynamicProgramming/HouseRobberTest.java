@@ -1,7 +1,9 @@
-package HouseRobber;
+package DynamicProgramming;
 
 import static org.junit.Assert.assertEquals;
 
+import DynamicProgramming.HouseRobber;
+import DynamicProgramming.HouseRobberII;
 import org.junit.Test;
 
 public class HouseRobberTest {
