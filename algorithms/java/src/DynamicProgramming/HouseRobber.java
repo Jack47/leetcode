@@ -1,4 +1,4 @@
-package HouseRobber;
+package DynamicProgramming;
 
 /**
  * Rob houses along a street. Limit: can't robber two adjacent houses.
