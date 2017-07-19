@@ -10,7 +10,7 @@ import org.junit.Test;
 public class FindAllAnagramsTest {
     @Test
     public void test() {
-        FindAllAnagrams sol = new FindAllAnagrams();
+        FindAllAnagramsT sol = new FindAllAnagramsT();
         List<Integer> result = sol.findAnagrams("cbaebabacd", "abc");
         assertEquals(new ArrayList<Integer>(){
             {

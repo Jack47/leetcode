@@ -6,8 +6,29 @@ import org.junit.Test;
 
 public class LFUCacheTest {
     @Test
+    public void test() {
+        LFUCacheT t = new LFUCacheT(2);
+        t.put(1,1);
+        t.put(2,2);
+        int v = t.get(1);
+        assertEquals(1, v);
+        t.put(3,3);
+        v = t.get(2);
+        assertEquals(-1, v);
+        v = t.get(3);
+        assertEquals(3, v);
+        t.put(4,4);
+
+        v = t.get(3);
+        assertEquals(3, v);
+        v = t.get(4);
+        assertEquals(4, v);
+        v = t.get(1);
+        assertEquals(-1, v);
+    }
+    @Test
     public void testPuts() {
-        LFUCache cache = new LFUCache(10);
+        LFUCacheT cache = new LFUCacheT(10);
         cache.put(10, 13);
         cache.put(3, 17);
         cache.put(6, 11);

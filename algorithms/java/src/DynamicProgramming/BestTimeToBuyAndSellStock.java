@@ -9,26 +9,15 @@ public class BestTimeToBuyAndSellStock {
     public int maxProfit(int[] prices) {
         if (prices == null || prices.length <= 1) return 0;
 
-        // II = 2
-        int sellBeforeIIMax = 0;
-        int sellOnIIMax = Math.max(prices[1]-prices[0], 0);
-        int sellBeforeIISellDay = 0;
-
-        // I = 2
-        int sellBeforeIMax = sellBeforeIIMax;
-        int sellBeforeISellDay = sellBeforeIISellDay;
-        int sellOnIMax = sellOnIIMax;
-
-        for (int i = 2; i < prices.length; i++) {
-            sellOnIIMax = Math.max(0, Math.max(sellOnIMax+prices[i]-prices[i-1], sellBeforeIMax+prices[i]-prices[sellBeforeISellDay]));
-            sellBeforeIIMax = Math.max(sellOnIMax, sellBeforeIMax);
-            sellBeforeIISellDay = sellBeforeIIMax == sellOnIMax ? i-1 : sellBeforeISellDay;
-
-            sellBeforeIMax = sellBeforeIIMax;
-            sellBeforeISellDay = sellBeforeIISellDay;
-            sellOnIMax = sellOnIIMax;
+        int bought = prices[0];
+        int max = 0;
+        for(int i = 1; i < prices.length;i++) {
+            if(prices[i] > bought) {
+                max = Math.max(prices[i] - bought, max); // sell out when has profit
+            } else {
+                bought = prices[i]; // buy in when is smaller
+            }
         }
-
-        return Math.max(sellOnIMax, sellBeforeIMax);
+        return max;
     }
 }
