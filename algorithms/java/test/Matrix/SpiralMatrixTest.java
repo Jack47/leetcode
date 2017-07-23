@@ -9,5 +9,8 @@ public class SpiralMatrixTest {
     public void test() {
         SpiralMatrix sp = new SpiralMatrix();
         List<Integer> l = sp.spiralOrder(new int[][]{{1,2,3},{4,5,6},{7,8,9}});
+
+        SpiralMatrixIIT s = new SpiralMatrixIIT();
+        int[][] result = s.generateMatrix(3);
     }
 }
