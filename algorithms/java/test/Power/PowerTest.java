@@ -36,56 +36,56 @@ public class PowerTest {
     @Test
     public void testPower() {
         Power pow = new Power();
-        double result = pow.myPow(2, 0);
+        double result = pow.myPowTable(2, 0);
         assertEquals(1.0, result);
 
         pow = new Power();
-        result = pow.myPow(1, 1);
+        result = pow.myPowTable(1, 1);
         assertEquals(1.0, result);
 
         pow = new Power();
-        result = pow.myPow(2.1, 2);
+        result = pow.myPowTable(2.1, 2);
         assertEquals(4.41, result);
 
         pow = new Power();
-        result = pow.myPow(2.1, 3);
+        result = pow.myPowTable(2.1, 3);
         assertEquals(9.261000000000001, result);
 
         pow = new Power();
-        result = pow.myPow(2.1, 4);
+        result = pow.myPowTable(2.1, 4);
         assertEquals(19.4481, result);
 
         pow = new Power();
-        result = pow.myPow(0.00001, 1);
+        result = pow.myPowTable(0.00001, 1);
         assertEquals(0.00001, result);
 
         pow = new Power();
-        result = pow.myPow(0.00001, 2147483647);
+        result = pow.myPowTable(0.00001, 2147483647);
         assertEquals(0.0, result);
 
         pow = new Power();
-        result = pow.myPow(34.00515, 3);
+        result = pow.myPowTable(34.00515, 3);
         assertEquals(39321.86290543159, result);
 
         pow = new Power();
-        result = pow.myPow(34.00515, -3);
+        result = pow.myPowTable(34.00515, -3);
         assertEquals(2.543114507074558E-5, result);
 
         pow = new Power();
-        result = pow.myPow(1.00000, -2147483648);
+        result = pow.myPowTable(1.00000, -2147483648);
         assertEquals(1.0, result);
 
         pow = new Power();
-        result = pow.myPow(8.88023, 3);
+        result = pow.myPowTable(8.88023, 3);
         assertEquals(700.2814829452681, result);
 
         pow = new Power();
-        result = pow.myPow(0.00001, 2);
+        result = pow.myPowTable(0.00001, 2);
         assertEquals(1.0000000000000002E-10, result);
 
         pow = new Power();
         //The result is different to math result due to double's precision
-        result = pow.myPow(2.8796, 2);
+        result = pow.myPowTable(2.8796, 2);
         //assertEquals(29209616, result);
         assertEquals(8.29209616, result);
     }

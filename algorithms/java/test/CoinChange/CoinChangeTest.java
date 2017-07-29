@@ -2,6 +2,7 @@ package CoinChange;
 
 import static org.junit.Assert.assertEquals;
 
+import DynamicProgramming.CoinChange;
 import org.junit.Test;
 
 public class CoinChangeTest {
