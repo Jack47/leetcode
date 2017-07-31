@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * https://leetcode.com/problems/powx-n/
- * Implement pow(x, n);
+ * Implement powWithMod(x, n);
  */
 public class Power {
     double[] powTable;

@@ -5,50 +5,33 @@ import java.util.List;
 
 public class ExpressionAddOperators {
     List<String> results;
-    StringBuilder sb;
     int target;
     String num;
 
-    void dfs(int pos, int curValue, int pre, int mul) {
-        if (curValue == target) {
-            results.add(sb.toString());
+    void dfs(int pos, String curResult, long curValue, long pre, long mul) {
+        if (curValue == target && pos == num.length()) {
+            results.add(curResult);
         }
 
-        for (int i = pos; i <= num.length() - 2; i++) {
+        for (int i = pos; i <= num.length() - 1; i++) {
+            if(num.charAt(pos) == '0' && i > pos) break; // avoid leading zero
             String l = num.substring(pos, i + 1);
-            int left = Integer.parseInt(l);
-            if(pos == 0) {
-                sb.append(l);
-                dfs(i+1, curValue+left, left, left);
-                sb.delete(sb.length() - l.length(), sb.length());
+            long left = Long.parseLong(l);
+            if(pos == 0) { // it's the beginning, so can not add operator
+                dfs(i+1, curResult+l, curValue+left, left, left);
                 continue;
             }
-            sb.append('+');
-            sb.append(l);
-            dfs(i + 1, curValue + left, left, left); // +
-            sb.delete(sb.length() - l.length(), sb.length());
-            sb.deleteCharAt(sb.length() - 1);
-
-            sb.append('-');
-            sb.append(l);
-            dfs(i + 1, curValue - left, -left, -left); // -
-            sb.delete(sb.length() - l.length(), sb.length());
-            sb.deleteCharAt(sb.length() - 1);
-
-            sb.append('*');
-            sb.append(l);
-            dfs(i + 1, curValue - pre + mul * left, 0, mul * left);
-            sb.delete(sb.length() - l.length(), sb.length());
-            sb.deleteCharAt(sb.length() - 1);
+            dfs(i + 1, curResult + '+' + l, curValue + left, left, left); // +
+            dfs(i + 1, curResult + '-' + l, curValue - left, -left, -left); // -
+            dfs(i + 1, curResult + '*' + l, curValue - pre + mul * left, mul*left, mul * left);
         }
     }
 
     public List<String> addOperators(String num, int target) {
         results = new ArrayList<>();
-        sb = new StringBuilder();
         this.target = target;
         this.num = num;
-        dfs(0, 0, 0, 0);
+        dfs(0, "", 0, 0, 0);
         return results;
     }
 }
