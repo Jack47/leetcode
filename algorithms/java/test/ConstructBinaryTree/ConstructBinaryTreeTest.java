@@ -2,6 +2,8 @@ package ConstructBinaryTree;
 
 import static org.junit.Assert.assertEquals;
 
+import BinaryTree.ConstructBinaryTreeByInOrderAndPostOrder;
+import BinaryTree.ConstructBinaryTreeByPreOrderAndInOrder;
 import TreeNode.TreeNode;
 import org.junit.Test;
 

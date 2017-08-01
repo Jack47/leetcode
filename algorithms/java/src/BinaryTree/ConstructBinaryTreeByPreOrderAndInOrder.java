@@ -1,4 +1,4 @@
-package ConstructBinaryTree;
+package BinaryTree;
 
 import TreeNode.TreeNode;
 
