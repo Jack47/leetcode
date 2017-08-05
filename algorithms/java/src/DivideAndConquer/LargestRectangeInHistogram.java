@@ -1,4 +1,4 @@
-package Matrix;
+package DivideAndConquer;
 
 import java.util.Stack;
 

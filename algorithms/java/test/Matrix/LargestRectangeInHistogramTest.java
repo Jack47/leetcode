@@ -1,5 +1,6 @@
 package Matrix;
 
+import DivideAndConquer.LargestRectangeInHistogram;
 import org.junit.Test;
 
 public class LargestRectangeInHistogramTest {
