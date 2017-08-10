@@ -1,6 +1,6 @@
 package BinaryTree;
 
-public class MaximumPathSum {
+public class BinaryTreeMaximumPathSum {
     int max = Integer.MIN_VALUE;
 
     public int maxPathSum(TreeNode root) {

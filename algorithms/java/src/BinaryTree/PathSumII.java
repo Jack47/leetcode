@@ -1,4 +1,4 @@
-package PathSumII;
+package BinaryTree;
 
 import java.util.LinkedList;
 import java.util.List;
