@@ -7,7 +7,7 @@ import org.junit.Test;
 public class MinimumWindowSubstringTest {
     @Test
     public void test() {
-        MinimumWindowSubstring sol = new MinimumWindowSubstring();
+        MinimumWindowSubstringT sol = new MinimumWindowSubstringT();
         String result = sol.minWindow("a", "a");
         assertEquals("a", result);
 
