@@ -2,6 +2,7 @@ package Graph;
 
 import static junit.framework.TestCase.assertEquals;
 
+import DynamicProgramming.ArithmetricSlice;
 import org.junit.Test;
 
 public class ArithmetricSliceTest {

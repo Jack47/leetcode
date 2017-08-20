@@ -1,4 +1,4 @@
-package Graph;
+package DynamicProgramming;
 
 public class ArithmetricSlice {
     public int numberOfArithmeticSlicesBruteForce(int[] nums) {
