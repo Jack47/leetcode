@@ -1,4 +1,4 @@
-package Math;
+package Greedy;
 
 public class GasStationT {
     public int canCompleteCircuit(int[] gases, int[] costs) {

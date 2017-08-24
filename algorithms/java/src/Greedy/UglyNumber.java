@@ -1,4 +1,4 @@
-package Math;
+package Greedy;
 
 public class UglyNumber {
     public boolean isUgly(int num) {

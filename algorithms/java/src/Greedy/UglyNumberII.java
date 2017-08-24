@@ -1,4 +1,4 @@
-package Math;
+package Greedy;
 
 public class UglyNumberII {
     public int nthUglyNumber(int n) {
