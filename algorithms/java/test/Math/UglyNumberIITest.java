@@ -1,5 +1,6 @@
 package Math;
 
+import Greedy.UglyNumberII;
 import org.junit.Test;
 
 public class UglyNumberIITest {
