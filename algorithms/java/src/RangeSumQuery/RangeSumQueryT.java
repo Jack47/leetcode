@@ -61,7 +61,7 @@ public class RangeSumQueryT {
 
     SegmentTree tree;
 
-    public NumArray(int[] nums) {
+    public RangeSumQueryT(int[] nums) {
         tree = new SegmentTree(nums);
     }
 
