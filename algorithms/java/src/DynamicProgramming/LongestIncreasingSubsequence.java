@@ -29,8 +29,8 @@ public class LongestIncreasingSubsequence {
             if (pos < 0) {
                 pos = -1 - pos;
             }
-            dp[pos] = nums[i];
-            if (pos + 1 > maxLen) { // new pos occured
+            dp[pos] = nums[i]; // len: pos+1, new lowest element appeared
+            if (pos + 1 > maxLen) { //
                 maxLen = pos + 1;
             }
         }
