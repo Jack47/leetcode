@@ -10,7 +10,7 @@ import org.junit.Test;
 public class CountOfSmallerNumbersAfterSelfTest {
     @Test
     public void test() {
-        CountOfSmallerNumbersAfterSelf sol = new CountOfSmallerNumbersAfterSelf();
+        CountOfSmallerNumbersAfterSelfT sol = new CountOfSmallerNumbersAfterSelfT();
         List<Integer> result = sol.countSmaller(new int[]{-1, -1});
         assertEquals(new ArrayList<Integer>(){{
             add(0);
