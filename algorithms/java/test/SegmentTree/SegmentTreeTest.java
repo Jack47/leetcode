@@ -6,6 +6,12 @@ import org.junit.Test;
 
 public class SegmentTreeTest {
     @Test
+    public void test() {
+        CountOfRangeSums c = new CountOfRangeSums();
+        int count = c.countRangeSum(new int[]{-2,5,-1}, -2, 2);
+        assertEquals(3, count);
+    }
+    @Test
     public void test1() {
         SegmentTree segmentTree = new SegmentTree(new int[]{});
         segmentTree = new SegmentTree(new int[]{-1});

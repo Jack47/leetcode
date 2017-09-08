@@ -1,71 +1,72 @@
 package RangeSumQuery;
 
 public class RangeSumQueryT {
-    class SegmentTree {
-        int[] nums;
-        int[] sums;
+    class TreeNode {
+        int sum;
+        int start;
+        int end;
+        TreeNode left, right;
 
-        public SegmentTree(int[] nums) {
-            if (nums.length == 0) return;
-            this.nums = nums;
-            int height = (int) Math.ceil(Math.log(nums.length) / Math.log(2)) + 1; // [log2^n]
-            int len = (int)Math.pow(2, height) - 1;
-            sums = new int[len + 1]; // we use [1 .. 2n-1 .. len, len+1], full binary tree
-            construct(1, 0, nums.length - 1);
-        }
-
-        void construct(int i, int s, int e) {
-            if (s == e) {
-                sums[i] = nums[s];
-                return;
-            }
-            int mid = s + (e - s) / 2;
-            construct(2 * i, s, mid); // cal left child: sums[2*i]
-            construct(2 * i + 1, mid + 1, e); // cal right child: sums[2*i+1]
-            sums[i] = sums[2 * i] + sums[2 * i + 1];
-        }
-
-        int getSum(int i, int s, int e, int ds, int de) {
-            if (s == e) return sums[i];
-            int mid = s + (e - s) / 2;
-            if (de <= mid) { // go left
-                return getSum(2 * i, s, mid, ds, de);
-            } else if (de > mid) {
-                return getSum(2 * i + 1, mid + 1, e, ds, de);
-            } else {
-                return getSum(2 * i, s, mid, ds, mid) + getSum(2 * i + 1, mid + 1, e, mid + 1, de);
-            }
-        }
-
-        public int getSum(int i, int j) {
-            return getSum(1, 0, nums.length - 1, i, j);
-        }
-
-        void update(int i, int s, int e, int di, int delta) {
-            sums[i] += delta;
-            if (s == e) return;
-            int mid = s + (e - s) / 2;
-            if (di <= mid) { // go left
-                update(2 * i, s, mid, di, delta);
-            } else {
-                update(2 * i + 1, mid + 1, e, di, delta);
-            }
-        }
-
-        public void update(int i, int val) {
-            int delta = val - this.nums[i];
-            update(1, 0, nums.length - 1, i, delta);
-            this.nums[i] = val;
+        TreeNode(int start, int end, int sum) {
+            this.start = start;
+            this.end = end;
+            this.sum = sum;
         }
     }
 
-    SegmentTree tree;
+    int[] nums;
+    TreeNode root;
+
+    TreeNode construct(int s, int e) {
+        if (s > e) return null;
+        if (s == e) return new TreeNode(s, e, nums[s]);
+        TreeNode root = new TreeNode(s, e, 0);
+        // it's a full binary tree, so at here the left and right child must both exist
+        int m = s + (e - s) / 2;
+        root.left = construct(s, m);
+        root.right = construct(m + 1, e);
+        root.sum = root.left.sum + root.right.sum;
+        return root;
+    }
+
+    int getSum(TreeNode root, int s, int e) {
+        if (s == root.start && e == root.end) return root.sum;
+        int m = root.start + (root.end-root.start) / 2;
+        if (s > m) {
+            return getSum(root.right, s, e);
+        } else if (e <= m) {
+            return getSum(root.left, s, e);
+        } else {
+            return getSum(root.left, s, m) + getSum(root.right, m + 1, e);
+        }
+    }
+
+    void update(TreeNode root, int i, int delta) {
+        root.sum += delta;
+        if (root.start == root.end) { // i must == root.start
+            return;
+        }
+        int m = root.start + (root.end - root.start) / 2;
+
+        if (i <= m) {
+            update(root.left, i, delta);
+        } else {
+            update(root.right, i, delta);
+        }
+    }
+
+    public void update(int i, int val) {
+        int delta = val - this.nums[i];
+        update(root, i, delta);
+        this.nums[i] = val;
+    }
 
     public RangeSumQueryT(int[] nums) {
-        tree = new SegmentTree(nums);
+        this.nums = nums;
+        root = construct(0, nums.length - 1);
     }
-
     public int sumRange(int i, int j) {
-        return tree.getSum(i, j);
+        if(root == null) return -1;
+        return getSum(root, i, j);
     }
 }
