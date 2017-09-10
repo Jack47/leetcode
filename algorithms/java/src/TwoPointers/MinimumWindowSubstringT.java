@@ -1,4 +1,4 @@
-package Substring;
+package TwoPointers;
 
 public class MinimumWindowSubstringT {
     public String minWindow(String s, String t) {

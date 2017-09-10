@@ -2,6 +2,7 @@ package Substring;
 
 import static junit.framework.TestCase.assertEquals;
 
+import TwoPointers.MinimumWindowSubstringT;
 import org.junit.Test;
 
 public class MinimumWindowSubstringTest {
