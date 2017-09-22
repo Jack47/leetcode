@@ -24,13 +24,13 @@ public class BoundSearch {
         int right = nums.length - 1;
         while (left < right) {
             int median = left + (int)Math.ceil((right - left) / 2.0);
-            if (nums[median] < target) {
-                left = median + 1;
+            if (nums[median] == target) {
+                left = median;
             } else if (nums[median] > target){
                 right = median - 1;
             }
             else {
-                left = median;
+                left = median + 1;
             }
         }
         if (nums[left] == target) return left;

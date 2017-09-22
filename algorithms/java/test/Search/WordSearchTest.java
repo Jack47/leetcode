@@ -2,6 +2,7 @@ package Search;
 
 import static org.junit.Assert.assertEquals;
 
+import DepthFirstSearch.WordSearch;
 import org.junit.Test;
 
 public class WordSearchTest {

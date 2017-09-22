@@ -1,4 +1,4 @@
-package Search;
+package DepthFirstSearch;
 
 import java.util.ArrayList;
 import java.util.Collections;

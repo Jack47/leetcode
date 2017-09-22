@@ -7,7 +7,8 @@ public class GuessNumber {
         int m;
         while(true) {
             m = left + (right-left)/2;
-            int result = guess(m);
+            //int result = guess(m);
+            int result = 0;
             if(result == 1) {
                 left = m+1;
             } else if (result == -1) {
