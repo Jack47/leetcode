@@ -1,4 +1,4 @@
-package NumberOfIslands;
+package UnionFind;
 
 import java.util.ArrayList;
 import java.util.List;
