@@ -1,4 +1,4 @@
-package DynamicProgramming;
+package Game;
 
 public class GuessNumberII {
     int[][] cache;
