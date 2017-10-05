@@ -1,6 +1,6 @@
-package GameOfLife;
+package Game;
 
-import static GameOfLife.GameOfLife.*;
+import static Game.GameOfLife.*;
 import static junit.framework.TestCase.assertEquals;
 
 import org.junit.Test;

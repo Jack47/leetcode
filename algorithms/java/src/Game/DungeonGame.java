@@ -1,4 +1,4 @@
-package GameOfLife;
+package Game;
 
 public class DungeonGame {
     public int calculateMinimumHP(int[][] dungeon) {

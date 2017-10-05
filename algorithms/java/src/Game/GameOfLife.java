@@ -1,4 +1,4 @@
-package GameOfLife;
+package Game;
 
 public class GameOfLife {
     public enum Status {

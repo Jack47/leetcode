@@ -1,4 +1,4 @@
-package GameOfLife;
+package Game;
 
 import static org.junit.Assert.assertArrayEquals;
 
