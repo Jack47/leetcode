@@ -6,13 +6,12 @@ public class Vector2D {
     int row, col;
     boolean isValid;
     List<List<Integer>> vec2d;
-    public Vector2DSimple(List<List<Integer>> vec2d) {
+    public void Vector2DSimple(List<List<Integer>> vec2d) {
         row = 0;
         col = -1;
         this.vec2d = vec2d;
     }
 
-    @Override
     public Integer nextSimple() {
         if(col < vec2d.get(row).size() -1) { // next col
             col++;
@@ -23,7 +22,6 @@ public class Vector2D {
         return vec2d.get(row).get(col);
     }
 
-    @Override
     public boolean hasNextSimple() {
         // row must <= vec2d.size()-1
         // col must <= vec2d.get(row)-1
@@ -40,7 +38,6 @@ public class Vector2D {
         this.vec2d = vec2d;
     }
 
-    @Override
     public Integer next() {
         if (isValid) {
             return vec2d.get(row).get(col);
@@ -48,7 +45,6 @@ public class Vector2D {
         return null;
     }
 
-    @Override
     public boolean hasNext() {
         if(col < vec2d.get(row).size()-1) {
           col++;

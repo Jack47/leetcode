@@ -1,9 +1,9 @@
 package Substring;
 
-import static junit.framework.TestCase.assertEquals;
-
 import TwoPointers.MinimumWindowSubstringT;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MinimumWindowSubstringTest {
     @Test
