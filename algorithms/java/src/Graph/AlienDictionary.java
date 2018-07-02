@@ -50,8 +50,7 @@ public class AlienDictionary {
                 }
             }
         }
-        // bfs to find a path
-        // find start points
+        // topology sort
         Queue<Integer> q = new LinkedList<Integer>();
         for (int i = 0; i < in_degree.length; i++) {
             if (in_degree[i] == 0 && exist[i]) {
