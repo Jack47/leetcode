@@ -13,7 +13,7 @@ public class Pagination {
     }
 
     public String[] paginate(int num, String[] results) {
-       List<Record> records = Arrays.asList(parseCSV(results));
+       ArrayList<Record> records = new ArrayList<Record>(Arrays.asList(parseCSV(results)));
        Iterator<Record> iter = records.iterator();
        Set<Integer> set = new TreeSet<Integer>();
        List<String> ret = new LinkedList<String>();
@@ -26,17 +26,19 @@ public class Pagination {
           Record r = iter.next();
           if(!set.contains(r.id) || isPadding) {
              ret.add(r.content);
+             set.add(r.id);
              iter.remove();
              count++;
           }
-          if (count > 0 && count % num == 0 && count < results.length) {
+          if (count > 0 && count % num == 0 && count < results.length) { // next page
               ret.add("");
               set.clear();
               isPadding = false;
+              iter = records.iterator();
           }
           if(!iter.hasNext() && count < results.length) { // needs padding
              isPadding = true;
-             iter = records.iterator();
+             iter = records.iterator(); // padding from beginning
           }
        }
        return ret.toArray(new String[0]);
