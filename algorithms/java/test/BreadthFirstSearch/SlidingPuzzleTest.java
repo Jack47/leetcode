@@ -9,12 +9,13 @@ public class SlidingPuzzleTest {
     public void test() {
         SlidingPuzzle sp = new SlidingPuzzle();
         int real = sp.slidingPuzzle(new int[][]{{1,2,3},{4,0,5}});
-        assertEquals(real, 1);
+        assertEquals(1, real);
 
-        real = sp.slidingPuzzle(new int[][]{{1,2,3},{5,4,0}});
-        assertEquals(real, -1);
+        real = sp.slidingPuzzle(new int[][]{{0,2,3},{5,4,0}});
+        assertEquals(-1, real);
 
         real = sp.slidingPuzzle(new int[][]{{3,2,4},{1,5,0}});
-        assertEquals(real, 14);
+        assertEquals(14, real );
+
     }
 }
