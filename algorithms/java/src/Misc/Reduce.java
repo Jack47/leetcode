@@ -8,7 +8,7 @@ public class Reduce {
     public <T> T reduce(Collection<T> collection, T init) {
        T ret = init;
        for(T v : collection) {
-            ret = caller(ret, v);
+            // ret = caller(ret, v);
        }
        return ret;
     }
