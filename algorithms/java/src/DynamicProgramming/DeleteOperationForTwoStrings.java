@@ -11,9 +11,9 @@ public class DeleteOperationForTwoStrings {
         }
         for(int i = 1; i <= word2.length(); i++) {
             for(int j = 1; j <= word1.length(); j++) {
-                if(word2.charAt(i-1) == word1.charAt(j-1)) {
+                if(word2.charAt(i-1) == word1.charAt(j-1)) { // same char, so without any edit distance effort
                     dp[i][j] = dp[i-1][j-1];
-                } else {
+                } else { // append from word1 or word2
                     dp[i][j] = 1 + Math.min(dp[i-1][j], dp[i][j-1]);
                 }
             }
