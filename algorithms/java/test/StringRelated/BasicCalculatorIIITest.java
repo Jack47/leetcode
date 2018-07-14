@@ -1,10 +1,10 @@
 package StringRelated;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
 
-public class BasicCalculatorTest {
+import static org.junit.Assert.assertEquals;
+
+public class BasicCalculatorIIITest {
     @Test
     public void test() {
         BasicCalculator bc = new BasicCalculator();
