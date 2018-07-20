@@ -19,7 +19,8 @@ public class TenWizard {
         shortestPath[source] = 0;
         PriorityQueue<Integer[]> q = new PriorityQueue<>((a,b)->(a[0]-b[0]));
         q.add(new Integer[]{0, source});
-        while (!q.isEmpty()) {
+        // (visited < count)
+        while (!q.isEmpty()) {// there are some second choices that are never poped,
             Integer[] edge = q.poll();
             int s = edge[1];
             for (int i = 0; i < wizards.size(); i++) {
